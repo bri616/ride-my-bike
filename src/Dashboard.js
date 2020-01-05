@@ -65,6 +65,7 @@ class Dashboard extends React.Component {
             filteredRoutes = this.searchFilter(filteredRoutes, filters.searchWord);
         }
         filteredRoutes = this.speedRangeFilter(filteredRoutes, filters.speedRange);
+        filteredRoutes = filteredRoutes.length === this.props.routes.length ? [] : filteredRoutes;
         this.setState({filteredRoutes: filteredRoutes});
     }
 
