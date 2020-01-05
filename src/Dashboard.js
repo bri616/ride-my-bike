@@ -44,7 +44,7 @@ class Dashboard extends React.Component {
     }
 
     speedRangeFilter(routes, speedRange) {
-        return routes.filter(route => (route.average_speed * 0.000621371 * 3600 > speedRange[0]) && (route.average_speed * 0.000621371 * 3600 < speedRange[1]));
+        return routes.filter(route => (route.average_speed * 0.000621371 * 3600 >= speedRange[0]) && (route.average_speed * 0.000621371 * 3600 < speedRange[1]));
     }
 
     filterRoutes(filters) {
