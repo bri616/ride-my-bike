@@ -20,3 +20,7 @@ body {
 .mph-slider {
     margin-top: 40px;
 }
+
+.search-form-control {
+    margin: -5px 0px 10px 15px;
+}

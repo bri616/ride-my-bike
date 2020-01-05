@@ -94,16 +94,17 @@ class Filters extends React.Component {
                         }
                         label="Without Friends"
                     />
-                    <FormControlLabel
-                        control={
-                            <TextField
-                                id="standard-basic"
-                                label="Ride name contains..."
-                                onChange={this.onSearchChange}
-                            />
-                        }
-                    />
-
+                    <div className="search-form-control">
+                        <FormControlLabel
+                            control={
+                                <TextField
+                                    id="standard-basic"
+                                    label="Ride name contains..."
+                                    onChange={this.onSearchChange}
+                                />
+                            }
+                        />
+                    </div>
                   <Slider
                       className='mph-slider'
                       value={this.state.speedRange}
