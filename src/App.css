@@ -1,3 +1,7 @@
+body {
+    background-color: #79669d;
+}
+
 .leaflet-container {
     height: 600px;
     width: 100%;
@@ -11,4 +15,8 @@
 
 .filters-paper {
     padding: 20px;
+}
+
+.mph-slider {
+    margin-top: 40px;
 }

@@ -48,6 +48,23 @@ class App extends React.Component {
         return routes.filter(route => route.athlete_count > 1);
     }
 
+    withoutFriendFilter(routes) {
+        return routes.filter(route => route.athlete_count <= 1);
+    }
+
+    searchFilter(routes, word) {
+        return routes.filter(route => {
+            if (!!route.name) {
+                return route.name.indexOf(word) > 0;
+            }
+            return false;
+        });
+    }
+
+    speedRangeFilter(routes, speedRange) {
+        return routes.filter(route => (route.average_speed * 0.000621371 * 3600 > speedRange[0]) && (route.average_speed * 0.000621371 * 3600 < speedRange[1]));
+    }
+
     filterRoutes(filters) {
         let filteredRoutes = this.state.allRoutes;
         if (filters.commutes === true) {
@@ -59,11 +76,17 @@ class App extends React.Component {
         if (filters.withFriends === true) {
             filteredRoutes = this.friendFilter(filteredRoutes);
         }
+        if (filters.withoutFriends === true) {
+            filteredRoutes = this.withoutFriendFilter(filteredRoutes);
+        }
+        if (!!filters.searchWord && filters.searchWord !== '') {
+            filteredRoutes = this.searchFilter(filteredRoutes, filters.searchWord);
+        }
+        filteredRoutes = this.speedRangeFilter(filteredRoutes, filters.speedRange);
         this.setState({routes: filteredRoutes});
     }
 
     render() {
-        const parserOptions = {header: true};
         if (this.state.routes) {
             return (
                 <Container maxWidth="xl">
@@ -72,6 +95,7 @@ class App extends React.Component {
                           <Paper className="route-map-paper">
                               <RouteMap
                                   routes={this.state.routes}
+                                  allRoutes={this.state.allRoutes}
                               />
                           </Paper>
                       </Grid>
@@ -79,11 +103,11 @@ class App extends React.Component {
                           <Paper className="stats-paper">
                               <Stats
                                   routes={this.state.routes}
+                                  allRoutes={this.state.allRoutes}
                               />
                           </Paper>
                           <Paper className="filters-paper">
                               <Filters
-                                  routes={this.state.allRoutes}
                                   filterRoutes={this.filterRoutes}
                               />
                           </Paper>
@@ -93,6 +117,7 @@ class App extends React.Component {
 
             );
         }
+        const parserOptions = {header: true};
         return (
             <CSVReader
                 parserOptions={parserOptions}

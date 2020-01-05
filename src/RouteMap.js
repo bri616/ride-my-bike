@@ -29,6 +29,14 @@ class RouteMap extends React.Component {
         <TileLayer
           url='https://{s}.tile.osm.org/{z}/{x}/{y}.png'
         />
+        {this.props.allRoutes.map(route => (
+            <Polyline
+                key={route.id}
+                weight="2"
+                color="#79669d91"
+                positions={this.getPositions(route)}
+            />
+        ))}
         {this.props.routes.map(route => (
             <Polyline
                 key={route.id}
