@@ -31,7 +31,7 @@ class RouteMap extends React.Component {
         />
         {this.props.allRoutes.map(route => (
             <Polyline
-                key={route.id}
+                key={`${route.id}-all`}
                 weight="2"
                 color="#79669d91"
                 positions={this.getPositions(route)}

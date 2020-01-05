@@ -51,7 +51,7 @@ const Stats = (props) => {
             <Grid item xs={1}>
                 <Divider orientation="vertical" />
             </Grid>
-            {props.allRoutes.length !== props.routes.length &&
+            {props.routes.length > 0 &&
             <Grid item xs={5}>
                 <h2>Filtered Rides</h2>
                 <List>
