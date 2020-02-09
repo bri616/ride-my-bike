@@ -27,7 +27,7 @@ class RouteMap extends React.Component {
     return (
       <Map center={position} zoom={this.state.zoom}>
         <TileLayer
-          url='https://{s}.tile.osm.org/{z}/{x}/{y}.png'
+          url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         />
         {this.props.allRoutes.map(route => (
             <Polyline

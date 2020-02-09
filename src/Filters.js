@@ -10,48 +10,84 @@ class Filters extends React.Component {
     constructor() {
         super()
         this.state = {
-            commutes: false,
-            nonCommutes: false,
-            withFriends: false,
-            withoutFriends: false,
-            searchWord: '',
-            speedRange: [0, 15],
+            commute: [
+                false,
+            ],
+            athlete_count: {
+                min: 0,
+                max: null,
+            },
+            average_speed: {
+                min: 0,
+                max: 15,
+            },
+            name: '',
         }
         this.onCheckboxClick = this.onCheckboxClick.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
         this.handleSpeedChange = this.handleSpeedChange.bind(this);
+        this.updateAthleteCount = this.updateAthleteCount.bind(this);
     }
 
     handleSpeedChange(event, newValue) {
         const speedRange = newValue;
         const filters = {
             ...this.state,
-            speedRange: speedRange,
+            average_speed: {
+                min: speedRange[0],
+                max: speedRange[1],
+            }
         }
         this.props.filterRoutes(filters);
-        this.setState({speedRange: speedRange});
+        this.setState({
+            average_speed: {
+                min: speedRange[0],
+                max: speedRange[1],
+            }
+        });
     }
 
     onSearchChange(event) {
         const word = event.target.value;
         const filters = {
             ...this.state,
-            searchWord: word,
+            name: word,
         }
         this.props.filterRoutes(filters);
-        this.setState({searchWord: word});
+        this.setState({name: word});
     }
 
     onCheckboxClick(filterType) {
         return () => {
-            const checked = this.state[filterType];
+            const checked = this.state[filterType][0];
             const filters = {
                 ...this.state,
-                [filterType]: !checked
+                [filterType]: [!checked]
             };
             this.props.filterRoutes(filters);
-            this.setState({[filterType]: !checked});
+            this.setState({[filterType]: [!checked]});
         }
+    }
+
+    updateAthleteCount() {
+        let athlete_count;
+        if (this.state.athlete_count.min === 0) {
+            athlete_count = {
+                min: 2,
+                max: null,
+            }
+        } else {
+            athlete_count = {
+                min: 0,
+                max: null,
+            }
+        }
+        const filters = {
+            ...this.state,
+            athlete_count: athlete_count
+        };
+        this.props.filterRoutes(filters);
+        this.setState({athlete_count: athlete_count});
     }
 
     render() {
@@ -61,8 +97,8 @@ class Filters extends React.Component {
                     <FormControlLabel
                         control={
                             <Checkbox
-                                checked={this.state.commutes}
-                                onChange={this.onCheckboxClick('commutes')}
+                                checked={this.state.commute[0]}
+                                onChange={this.onCheckboxClick('commute')}
                             />
                         }
                         label="Commutes"
@@ -70,29 +106,11 @@ class Filters extends React.Component {
                     <FormControlLabel
                         control={
                             <Checkbox
-                                checked={this.state.nonCommutes}
-                                onChange={this.onCheckboxClick('nonCommutes')}
-                            />
-                        }
-                        label="Non-Commutes"
-                    />
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={this.state.withFriends}
-                                onChange={this.onCheckboxClick('withFriends')}
+                                checked={this.state.athlete_count.min === 2}
+                                onChange={this.updateAthleteCount}
                             />
                         }
                         label="With Friends"
-                    />
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={this.state.withoutFriends}
-                                onChange={this.onCheckboxClick('withoutFriends')}
-                            />
-                        }
-                        label="Without Friends"
                     />
                     <div className="search-form-control">
                         <FormControlLabel
@@ -107,7 +125,7 @@ class Filters extends React.Component {
                     </div>
                   <Slider
                       className='mph-slider'
-                      value={this.state.speedRange}
+                      value={[this.state.average_speed.min, this.state.average_speed.max]}
                       onChange={this.handleSpeedChange}
                       step={0.5}
                       min={0}

@@ -51,6 +51,7 @@ class App extends React.Component {
                 distance: isNaN(Number(item.distance)) ? 0 : Number(item.distance),
                 average_speed: isNaN(Number(item.average_speed)) ? 0 : Number(item.average_speed),
                 athlete_count: isNaN(Number(item.athlete_count)) ? 0 : Number(item.athlete_count),
+                commute: item.commute === "True" ? true : false,
             }
         ));
         this.setState(state => ({
